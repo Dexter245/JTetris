@@ -1,5 +1,5 @@
 package com.dextersLaboratory.jtetris.model.block;
 
-public class BlockL {
+public class BlockL extends Block {
 
 }
