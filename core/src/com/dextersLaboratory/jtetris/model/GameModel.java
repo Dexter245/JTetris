@@ -4,6 +4,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.dextersLaboratory.jtetris.model.block.Block;
 
 public class GameModel {
+	
+	private static final int GRID_WIDTH = 10;
+	private static final int GRID_HEIGHT = 20;
 
 	private boolean[][] grid = new boolean[10][20];
 	private ShapeColor[][] gridColors = new ShapeColor[10][20];
@@ -15,12 +18,31 @@ public class GameModel {
 	private Block currentBlock;
 	private float steptime = 500f;
 	
-	public void setGridCell(int x, int y, boolean value){
-		
+	/** Sets the cell at the given coordinates x and y occupied or not occupied depending
+	 * on the givenvalue.
+	 * @param x the x coordinate of the cell to set
+	 * @param y the y coordinate of the cell to set
+	 * @param value the value to set to the cell
+	 * @throws IllegalArgumentException if x or y are out of the gameArea bounds */
+	public void setGridCell(int x, int y, boolean value) throws IllegalArgumentException{
+		if(x < 0 || x >= GRID_WIDTH)
+			throw new IllegalArgumentException("x may not be " + x);
+		if(y < 0 || y >= GRID_HEIGHT)
+			throw new IllegalArgumentException("y may not be " + y);
+		grid[x][y] = value;
 	}
 	
-	public void setGridCellColor(int x, int y, ShapeColor color){
-		
+	/** Sets the cell color at the given coordinates x and y.
+	 * @param x the x coordinate of the cell to set
+	 * @param y the y coordinate of the cell to set
+	 * @param color the color to set
+	 * @throws IllegalArgumentException if x or y are out of the gameArea bounds */
+	public void setGridCellColor(int x, int y, ShapeColor color) throws IllegalArgumentException{
+		if(x < 0 || x >= GRID_WIDTH)
+			throw new IllegalArgumentException("x may not be " + x);
+		if(y < 0 || y >= GRID_HEIGHT)
+			throw new IllegalArgumentException("y may not be " + y);
+		gridColors[x][y] = color;
 	}
 	
 	public void setTimePlayed(float timePlayed){
@@ -28,7 +50,7 @@ public class GameModel {
 	}
 	
 	public void increaseScore(int amount){
-		
+		score += amount;
 	}
 
 	public void setGameState(GameState gameState) {
@@ -50,7 +72,6 @@ public class GameModel {
 	public void setSteptime(float steptime) {
 		this.steptime = steptime;
 	}
-	
 	
 	public boolean[][] getGrid() {
 		return grid;
