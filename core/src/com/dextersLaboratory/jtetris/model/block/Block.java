@@ -1,7 +1,6 @@
 package com.dextersLaboratory.jtetris.model.block;
 
 import com.badlogic.gdx.graphics.Color;
-import com.dextersLaboratory.jtetris.model.ShapeColor;
 
 public abstract class Block {
 
