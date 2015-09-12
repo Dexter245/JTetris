@@ -8,36 +8,33 @@ public class BlockL extends Block {
 		
 		color = Color.ORANGE;
 
-		shapeGrid[0] = new boolean[][]{
-				{false, false, true, false}, 
-				{true, true, true, false}, 
-				{false, false, false, false}, 
-				{false, false, false, false}};
+		setShapeGridFromRotatedIntArray(new int[][]{
+			{0, 0, 1, 0},
+			{1, 1, 1, 0},
+			{0, 0, 0, 0},
+			{0, 0, 0, 0}
+		}, 0);
 
-		shapeGrid[1] = new boolean[][]{
-				{false, true, false, false}, 
-				{false, true, false, false}, 
-				{false, true, true, false}, 
-				{false, false, false, false}};
+		setShapeGridFromRotatedIntArray(new int[][]{
+			{0, 1, 0, 0},
+			{0, 1, 0, 0},
+			{0, 1, 1, 0},
+			{0, 0, 0, 0}
+		}, 1);
 
-		shapeGrid[2] = new boolean[][]{
-				{false, false, false, false}, 
-				{true, true, true, false}, 
-				{true, false, false, false}, 
-				{false, false, false, false}};
+		setShapeGridFromRotatedIntArray(new int[][]{
+			{0, 0, 0, 0},
+			{1, 1, 1, 0},
+			{1, 0, 0, 0},
+			{0, 0, 0, 0}
+		}, 2);
 
-		shapeGrid[3] = new boolean[][]{
-				{true, true, false, false}, 
-				{false, true, false, false}, 
-				{false, true, false, false}, 
-				{false, false, false, false}};
-
-		
-		
-		
-		
-		
-		
+		setShapeGridFromRotatedIntArray(new int[][]{
+			{1, 1, 0, 0},
+			{0, 1, 0, 0},
+			{0, 1, 0, 0},
+			{0, 0, 0, 0}
+		}, 3);
 		
 		
 		

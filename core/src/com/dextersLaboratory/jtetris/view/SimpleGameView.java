@@ -81,20 +81,28 @@ public class SimpleGameView implements IGameView {
 			boolean[][] blockGrid = model.getCurrentBlock().getGrid();
 	//		Vector2 blockPos = model.getCurrentBlockPos();
 			int blockPosX = model.getCurrentBlockPosX();
-			int blockPosY = model.getcurrentBlockPosY();
+			int blockPosY = model.getCurrentBlockPosY();
 			int rectX = 0, rectY = 0;
 			shapeRenderer.setColor(model.getCurrentBlock().getColor());
 			for(int x = 0; x < blockGrid.length; x++){
 				for(int y = 0; y < blockGrid[x].length; y++){
 					if(blockGrid[x][y]){
-						rectX = (blockPosX + x) + CELL_WIDTH;
-						rectY = (blockPosY + y) + CELL_HEIGHT;
+//						rectX = (blockPosX + x) * CELL_WIDTH + 20;
+//						rectY = (blockPosY + y) * CELL_HEIGHT + 20;
+						rectX = (x) * CELL_WIDTH + 20;
+						rectY = (y) * CELL_HEIGHT + 20;
 						shapeRenderer.rect(rectX, rectY, CELL_WIDTH, CELL_HEIGHT);
 					}
 				}
 			}
+
+			shapeRenderer.end();
+			shapeRenderer.begin(ShapeType.Line);
+			shapeRenderer.rect(blockPosX*CELL_WIDTH + 20, blockPosY*CELL_HEIGHT + 20, 
+					4*CELL_WIDTH, 4*CELL_HEIGHT);
 			
 		}
+		
 		
 		
 		

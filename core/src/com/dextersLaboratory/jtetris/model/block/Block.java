@@ -23,6 +23,17 @@ public abstract class Block {
 		return color;
 	}
 	
+	protected void setShapeGridFromRotatedIntArray(int[][] intArray, int rotation){
+		for(int x = 0; x < 4; x++){
+			for(int y = 0; y < 4; y++){
+				if(intArray[y][x] == 1)
+					shapeGrid[rotation][x][3-y] = true;
+				else
+					shapeGrid[rotation][x][3-y] = false;
+			}
+		}
+	}
+	
 	
 
 	

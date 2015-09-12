@@ -21,6 +21,22 @@ public class GameModel {
 	private Block currentBlock;
 	private float steptime = 500f;
 	
+	public void reset(){
+		for(int x = 0; x < GRID_WIDTH; x++){
+			for(int y = 0; y < GRID_HEIGHT; y++){
+				grid[x][y] = false;
+			}
+		}
+		gameState = GameState.gameOver;
+		timePlayed = 0f;
+		score = 0;
+		speed = 1;
+		currentBlockPosX = 0;
+		currentBlockPosY = 0;
+		currentBlock = null;
+		steptime = 500f;
+	}
+	
 	/** Sets the cell at the given coordinates x and y occupied or not occupied depending
 	 * on the givenvalue.
 	 * @param x the x coordinate of the cell to set
@@ -62,6 +78,14 @@ public class GameModel {
 
 	public void setSpeed(int speed) {
 		this.speed = speed;
+	}
+	
+	public void setCurrentBlockPosX(int x){
+		currentBlockPosX = x;
+	}
+	
+	public void setCurrentBlockPosY(int y){
+		currentBlockPosY = y;
 	}
 	
 	public void setCurrentBlockPos(int x, int y){
@@ -125,7 +149,7 @@ public class GameModel {
 		return currentBlockPosX;
 	}
 	
-	public int getcurrentBlockPosY(){
+	public int getCurrentBlockPosY(){
 		return currentBlockPosY;
 	}
 
