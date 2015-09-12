@@ -133,8 +133,8 @@ public class GameController {
 		}
 		
 		model.setCurrentBlock(newBlock);
-//		model.setCurrentBlockPos(3, 19);
-		model.setCurrentBlockPos(0, 0);
+		model.setCurrentBlockPos(3, 16);
+//		model.setCurrentBlockPos(0, 0);
 		
 	}
 	

@@ -87,10 +87,10 @@ public class SimpleGameView implements IGameView {
 			for(int x = 0; x < blockGrid.length; x++){
 				for(int y = 0; y < blockGrid[x].length; y++){
 					if(blockGrid[x][y]){
-//						rectX = (blockPosX + x) * CELL_WIDTH + 20;
-//						rectY = (blockPosY + y) * CELL_HEIGHT + 20;
-						rectX = (x) * CELL_WIDTH + 20;
-						rectY = (y) * CELL_HEIGHT + 20;
+						rectX = (blockPosX + x) * CELL_WIDTH + 20;
+						rectY = (blockPosY + y) * CELL_HEIGHT + 20;
+//						rectX = (x) * CELL_WIDTH + 20;
+//						rectY = (y) * CELL_HEIGHT + 20;
 						shapeRenderer.rect(rectX, rectY, CELL_WIDTH, CELL_HEIGHT);
 					}
 				}
