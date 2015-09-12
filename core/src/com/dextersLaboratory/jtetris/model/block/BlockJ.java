@@ -1,8 +1,12 @@
 package com.dextersLaboratory.jtetris.model.block;
 
+import com.badlogic.gdx.graphics.Color;
+
 public class BlockJ extends Block {
 	
 	public BlockJ(){
+		
+		color = Color.BLUE;
 		
 		shapeGrid[0] = new boolean[][]{
 				{true, false, false, false}, 

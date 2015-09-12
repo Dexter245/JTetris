@@ -16,12 +16,13 @@ public class Game extends ApplicationAdapter {
 	
 	@Override
 	public void create () {
-//		controller = new GameController();
-//		view = new SimpleGameView();
+		controller = new GameController();
+		view = new SimpleGameView(controller.getGameModel());
 	}
 
 	@Override
 	public void render () {
-//		controller.update
+		controller.update(Gdx.graphics.getDeltaTime());
+		view.render();
 	}
 }

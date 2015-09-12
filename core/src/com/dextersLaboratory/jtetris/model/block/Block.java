@@ -1,11 +1,13 @@
 package com.dextersLaboratory.jtetris.model.block;
 
+import com.badlogic.gdx.graphics.Color;
 import com.dextersLaboratory.jtetris.model.ShapeColor;
 
 public abstract class Block {
 
 	protected boolean[][][] shapeGrid = new boolean[4][4][4];
-	private ShapeColor color;
+//	private ShapeColor color;
+	protected Color color;
 	private int currentRotation = 0;
 	
 	public void rotate(){
@@ -18,7 +20,7 @@ public abstract class Block {
 		return shapeGrid[currentRotation];
 	}
 	
-	public ShapeColor getColor(){
+	public Color getColor(){
 		return color;
 	}
 	

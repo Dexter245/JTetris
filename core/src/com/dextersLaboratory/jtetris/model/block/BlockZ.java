@@ -1,8 +1,12 @@
 package com.dextersLaboratory.jtetris.model.block;
 
+import com.badlogic.gdx.graphics.Color;
+
 public class BlockZ extends Block {
 	
 	public BlockZ(){
+		
+		color = Color.RED;
 		
 		shapeGrid[0] = new boolean[][]{
 				{true, true, false, false}, 

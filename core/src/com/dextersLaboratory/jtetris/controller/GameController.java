@@ -7,12 +7,16 @@ public class GameController {
 	private GameModel model;
 	private float steptimeAccum = 0f;
 
-	private GameController(){
-		
+	public GameController(){
+		model = new GameModel();
 	}
 	
 	public void update(float delta){
 		
+	}
+	
+	public GameModel getGameModel(){
+		return model;
 	}
 	
 	private void step(){
@@ -54,6 +58,7 @@ public class GameController {
 	private void clearLine(){
 		
 	}
+	
 	
 	
 	

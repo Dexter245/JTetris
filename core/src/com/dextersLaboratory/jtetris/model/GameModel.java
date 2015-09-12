@@ -1,5 +1,6 @@
 package com.dextersLaboratory.jtetris.model;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.dextersLaboratory.jtetris.model.block.Block;
 
@@ -9,12 +10,14 @@ public class GameModel {
 	private static final int GRID_HEIGHT = 20;
 
 	private boolean[][] grid = new boolean[10][20];
-	private ShapeColor[][] gridColors = new ShapeColor[10][20];
+	private Color[][] gridColors = new Color[10][20];
 	private GameState gameState = GameState.gameOver;
 	private float timePlayed = 0f;
 	private int score = 0;
 	private int speed = 1;
-	private Vector2 currentBlockPos = new Vector2();
+	private int currentBlockPosX = 0;
+	private int currentBlockPosY = 0;
+//	private Vector2 currentBlockPos = new Vector2();
 	private Block currentBlock;
 	private float steptime = 500f;
 	
@@ -37,7 +40,7 @@ public class GameModel {
 	 * @param y the y coordinate of the cell to set
 	 * @param color the color to set
 	 * @throws IllegalArgumentException if x or y are out of the gameArea bounds */
-	public void setGridCellColor(int x, int y, ShapeColor color) throws IllegalArgumentException{
+	public void setGridCellColor(int x, int y, Color color) throws IllegalArgumentException{
 		if(x < 0 || x >= GRID_WIDTH)
 			throw new IllegalArgumentException("x may not be " + x);
 		if(y < 0 || y >= GRID_HEIGHT)
@@ -60,10 +63,15 @@ public class GameModel {
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
-
-	public void setCurrentBlockPos(Vector2 currentBlockPos) {
-		this.currentBlockPos = currentBlockPos;
+	
+	public void setCurrentBlockPos(int x, int y){
+		currentBlockPosX = x;
+		currentBlockPosY = y;
 	}
+
+//	public void setCurrentBlockPos(Vector2 currentBlockPos) {
+//		this.currentBlockPos = currentBlockPos;
+//	}
 
 	public void setCurrentBlock(Block currentBlock) {
 		this.currentBlock = currentBlock;
@@ -73,13 +81,29 @@ public class GameModel {
 		this.steptime = steptime;
 	}
 	
-	public boolean[][] getGrid() {
-		return grid;
+	public boolean getGridCell(int x, int y){
+		if(x < 0 || x >= GRID_WIDTH)
+			throw new IllegalArgumentException("x may not be " + x);
+		if(y < 0 || y >= GRID_HEIGHT)
+			throw new IllegalArgumentException("y may not be " + y);
+		return grid[x][y];
 	}
-
-	public ShapeColor[][] getGridColors() {
-		return gridColors;
+	
+	public Color getGridCellColor(int x, int y){
+		if(x < 0 || x >= GRID_WIDTH)
+			throw new IllegalArgumentException("x may not be " + x);
+		if(y < 0 || y >= GRID_HEIGHT)
+			throw new IllegalArgumentException("y may not be " + y);
+		return gridColors[x][y];
 	}
+	
+//	public boolean[][] getGrid() {
+//		return grid;
+//	}
+//
+//	public ShapeColor[][] getGridColors() {
+//		return gridColors;
+//	}
 
 	public GameState getGameState() {
 		return gameState;
@@ -96,10 +120,18 @@ public class GameModel {
 	public int getSpeed() {
 		return speed;
 	}
-
-	public Vector2 getCurrentBlockPos() {
-		return currentBlockPos;
+	
+	public int getCurrentBlockPosX(){
+		return currentBlockPosX;
 	}
+	
+	public int getcurrentBlockPosY(){
+		return currentBlockPosY;
+	}
+
+//	public Vector2 getCurrentBlockPos() {
+//		return currentBlockPos;
+//	}
 
 	public Block getCurrentBlock() {
 		return currentBlock;
