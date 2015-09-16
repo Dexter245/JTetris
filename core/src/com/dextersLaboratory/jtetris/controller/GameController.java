@@ -2,6 +2,8 @@ package com.dextersLaboratory.jtetris.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
+import com.dextersLaboratory.jtetris.model.Direction;
 import com.dextersLaboratory.jtetris.model.GameModel;
 import com.dextersLaboratory.jtetris.model.GameState;
 import com.dextersLaboratory.jtetris.model.block.Block;
@@ -20,6 +22,24 @@ public class GameController {
 
 	public GameController(){
 		model = new GameModel();
+	}
+	
+	//TODO: remove later
+	private void debugLineBottom(){
+		for(int x = 0; x < 10; x++){
+			model.setGridCell(x, 0, true);
+			model.setGridCellColor(x, 0, Color.RED);
+		}
+	}
+	
+	//TODO: remove later
+	private void debugLineSides(){
+		for(int y = 0; y < 20; y++){
+			model.setGridCell(0, y, true);
+			model.setGridCell(9, y, true);
+			model.setGridCellColor(0, y, Color.RED);
+			model.setGridCellColor(9, y, Color.RED);
+		}
 	}
 	
 	public void update(float delta){
@@ -64,15 +84,23 @@ public class GameController {
 	}
 	
 	private void step(){
-		model.setCurrentBlockPosY(model.getCurrentBlockPosY() - 1);
+		if(model.getCurrentBlock() != null && !doesCollide(Direction.down)){
+			model.setCurrentBlockPosY(model.getCurrentBlockPosY() - 1);
+		}else{
+			//block to grid
+		}
 	}
 	
 	private void moveBlockLeft(){
-		
+		if(model.getCurrentBlock() != null && !doesCollide(Direction.left)){
+			model.setCurrentBlockPosX(model.getCurrentBlockPosX() - 1);
+		}
 	}
 	
 	private void moveBlockRight(){
-		
+		if(model.getCurrentBlock() != null && !doesCollide(Direction.right)){
+			model.setCurrentBlockPosX(model.getCurrentBlockPosX() + 1);
+		}
 	}
 	
 	private void dropBlockDown(){
@@ -94,11 +122,40 @@ public class GameController {
 		model.reset();
 		spawnNewBlock();
 		model.setGameState(GameState.playing);
+//		debugLineBottom();//TODO: remove later
+//		debugLineSides();//TODO: remove later
 
 	}
 	
-	private void checkCollision(){
+	private boolean doesCollide(Direction dir){
 		
+		for(int y = 0; y < 4; y++){
+			for(int x = 0; x < 4; x++){
+				if(model.getCurrentBlock().getGrid()[x][y]){
+
+					int x2 = model.getCurrentBlockPosX() + x;
+					int y2 = model.getCurrentBlockPosY() + y;
+
+					if(dir == Direction.down){
+						y2--;
+					}else if(dir == Direction.left){
+						x2--;
+					}else if(dir == Direction.right){
+						x2++;
+					}
+
+					if(y2 >= 0 && x2 >= 0 && x2 <= 9){
+						if(model.getGridCell(x2, y2)){
+							return true;
+						}
+					}else{
+						return true;
+					}
+				}
+			}
+		}
+		
+		return false;
 	}
 	
 	private void spawnNewBlock(){

@@ -66,12 +66,12 @@ public class SimpleGameView implements IGameView {
 	private void renderGameArea(){
 		
 		shapeRenderer.begin(ShapeType.Filled);
-		//block that have fallen down
+		//blocks that have fallen down
 		for(int x = 0; x < NUM_CELLS_X; x++){
 			for(int y = 0; y < NUM_CELLS_Y; y++){
 				if(model.getGridCell(x, y)){
 					shapeRenderer.setColor(model.getGridCellColor(x, y));
-					shapeRenderer.rect(x*CELL_WIDTH, y*CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+					shapeRenderer.rect(x*CELL_WIDTH+20, y*CELL_HEIGHT+20, CELL_WIDTH, CELL_HEIGHT);
 				}
 			}
 		}

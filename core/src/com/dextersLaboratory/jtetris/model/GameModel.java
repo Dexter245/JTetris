@@ -19,7 +19,7 @@ public class GameModel {
 	private int currentBlockPosY = 0;
 //	private Vector2 currentBlockPos = new Vector2();
 	private Block currentBlock;
-	private float steptime = 500f;
+	private float steptime = 0.5f;
 	
 	public void reset(){
 		for(int x = 0; x < GRID_WIDTH; x++){
@@ -34,7 +34,7 @@ public class GameModel {
 		currentBlockPosX = 0;
 		currentBlockPosY = 0;
 		currentBlock = null;
-		steptime = 500f;
+		steptime = 0.5f;
 	}
 	
 	/** Sets the cell at the given coordinates x and y occupied or not occupied depending
@@ -110,6 +110,10 @@ public class GameModel {
 			throw new IllegalArgumentException("x may not be " + x);
 		if(y < 0 || y >= GRID_HEIGHT)
 			throw new IllegalArgumentException("y may not be " + y);
+//		if(x < 0 || x >= GRID_WIDTH)
+//			return true;
+//		if(y < 0 || y >= GRID_HEIGHT)
+//			return true;
 		return grid[x][y];
 	}
 	
