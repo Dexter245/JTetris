@@ -34,7 +34,7 @@ public class GameController {
 	
 	//TODO: remove later
 	private void debugLineSides(){
-		int numLinesAtEachSide = 0;
+		int numLinesAtEachSide = 4;
 		for(int x = 0; x < numLinesAtEachSide; x++){
 			for(int y = 0; y < 20; y++){
 				model.setGridCell(x, y, true);
@@ -172,42 +172,55 @@ public class GameController {
 		boolean correctedLeft = false;
 		int newPosX = model.getCurrentBlockPosX();
 		int newPosY = model.getCurrentBlockPosY();
+
 		//collision left
-		for(int y = 0; y < 4; y++){
-			if(model.getCurrentBlock().getGrid()[0][y]){
-				if(newPosX < 0){
-					newPosX++;
-					correctedLeft = true;
-					y = -1;
-				}
-				else if(model.getGridCell(newPosX, y)){
-					newPosX++;
-					correctedLeft = true;
-					y = -1;
+		for(int x = 0; x < 4; x++){
+
+			for(int y = 0; y < 4; y++){
+				if(model.getCurrentBlock().getGrid()[x][y]){
+					//against game area border
+					if(newPosX + x < 0){
+						newPosX++;
+						correctedLeft = true;
+						y = -1;
+					}
+					//against fallen down blocks
+					else if(model.getGridCell(newPosX, y)){
+						newPosX++;
+						correctedLeft = true;
+						y = -1;
+					}
 				}
 			}
+
 		}
 		
 		//collision right
-		for(int y = 0; y < 4; y++){
-			if(model.getCurrentBlock().getGrid()[3][y]){
-				if(newPosX > 6){
-					if(correctedLeft){
-						possible = false;
-						break;
+		for(int x = 3; x > 0; x--){
+
+			for(int y = 0; y < 4; y++){
+				if(model.getCurrentBlock().getGrid()[x][y]){
+					//against game area border
+					if(newPosX > 9-x){
+						if(correctedLeft){
+							possible = false;
+							break;
+						}
+						newPosX--;
+						y = -1;
 					}
-					newPosX--;
-					y = -1;
-				}
-				else if(model.getGridCell(newPosX+3, y)){
-					if(correctedLeft){
-						possible = false;
-						break;
+					//against fallen down blocks
+					else if(model.getGridCell(newPosX+x, y)){
+						if(correctedLeft){
+							possible = false;
+							break;
+						}
+						newPosX--;
+						y = -1;
 					}
-					newPosX--;
-					y = -1;
 				}
 			}
+			
 		}
 		
 		if(possible){
@@ -221,7 +234,7 @@ public class GameController {
 	
 	private void spawnNewBlock(){
 //		int rand = (int) (Math.random() * 7);
-		int rand = 0;
+		int rand = 1;
 		Block newBlock = null;
 		switch(rand){
 		case 0:
