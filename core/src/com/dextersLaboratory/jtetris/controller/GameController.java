@@ -34,12 +34,17 @@ public class GameController {
 	
 	//TODO: remove later
 	private void debugLineSides(){
-		for(int y = 0; y < 20; y++){
-			model.setGridCell(0, y, true);
-			model.setGridCell(9, y, true);
-			model.setGridCellColor(0, y, Color.RED);
-			model.setGridCellColor(9, y, Color.RED);
+		int numLinesAtEachSide = 0;
+		for(int x = 0; x < numLinesAtEachSide; x++){
+			for(int y = 0; y < 20; y++){
+				model.setGridCell(x, y, true);
+				model.setGridCell(9-x, y, true);
+				model.setGridCellColor(x, y, Color.RED);
+				model.setGridCellColor(9-x, y, Color.RED);
+			}
+			
 		}
+		
 	}
 	
 	public void update(float delta){
@@ -109,6 +114,10 @@ public class GameController {
 	
 	private void rotateBlock(){
 		model.getCurrentBlock().rotate();
+		if(!handleCollisionAfterRotation()){
+			for(int i = 0; i < 3; i++)
+				model.getCurrentBlock().rotate();
+		}
 	}
 	
 	private void togglePause(){
@@ -123,7 +132,7 @@ public class GameController {
 		spawnNewBlock();
 		model.setGameState(GameState.playing);
 //		debugLineBottom();//TODO: remove later
-//		debugLineSides();//TODO: remove later
+		debugLineSides();//TODO: remove later
 
 	}
 	
@@ -158,9 +167,61 @@ public class GameController {
 		return false;
 	}
 	
+	private boolean handleCollisionAfterRotation(){
+		boolean possible = true;
+		boolean correctedLeft = false;
+		int newPosX = model.getCurrentBlockPosX();
+		int newPosY = model.getCurrentBlockPosY();
+		//collision left
+		for(int y = 0; y < 4; y++){
+			if(model.getCurrentBlock().getGrid()[0][y]){
+				if(newPosX < 0){
+					newPosX++;
+					correctedLeft = true;
+					y = -1;
+				}
+				else if(model.getGridCell(newPosX, y)){
+					newPosX++;
+					correctedLeft = true;
+					y = -1;
+				}
+			}
+		}
+		
+		//collision right
+		for(int y = 0; y < 4; y++){
+			if(model.getCurrentBlock().getGrid()[3][y]){
+				if(newPosX > 6){
+					if(correctedLeft){
+						possible = false;
+						break;
+					}
+					newPosX--;
+					y = -1;
+				}
+				else if(model.getGridCell(newPosX+3, y)){
+					if(correctedLeft){
+						possible = false;
+						break;
+					}
+					newPosX--;
+					y = -1;
+				}
+			}
+		}
+		
+		if(possible){
+			model.setCurrentBlockPosX(newPosX);
+			model.setCurrentBlockPosY(newPosY);
+		}
+		
+		return possible;
+		
+	}
+	
 	private void spawnNewBlock(){
 //		int rand = (int) (Math.random() * 7);
-		int rand = 6;
+		int rand = 0;
 		Block newBlock = null;
 		switch(rand){
 		case 0:
