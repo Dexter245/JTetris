@@ -159,8 +159,8 @@ public class GameController {
 	}
 	
 	private void spawnNewBlock(){
-		int rand = (int) (Math.random() * 7);
-//		int rand = 6;
+//		int rand = (int) (Math.random() * 7);
+		int rand = 6;
 		Block newBlock = null;
 		switch(rand){
 		case 0:

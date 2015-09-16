@@ -9,9 +9,9 @@ public class BlockT extends Block {
 		color = Color.PURPLE;
 
 		setShapeGridFromRotatedIntArray(new int[][]{
+			{0, 0, 0, 0},
 			{0, 1, 0, 0},
 			{1, 1, 1, 0},
-			{0, 0, 0, 0},
 			{0, 0, 0, 0}
 		}, 0);
 

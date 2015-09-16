@@ -9,16 +9,16 @@ public class BlockZ extends Block {
 		color = Color.RED;
 		
 		setShapeGridFromRotatedIntArray(new int[][]{
+			{0, 0, 0, 0},
 			{1, 1, 0, 0},
 			{0, 1, 1, 0},
-			{0, 0, 0, 0},
 			{0, 0, 0, 0}
 		}, 0);
 
 		setShapeGridFromRotatedIntArray(new int[][]{
-			{0, 0, 1, 0},
-			{0, 1, 1, 0},
 			{0, 1, 0, 0},
+			{1, 1, 0, 0},
+			{1, 0, 0, 0},
 			{0, 0, 0, 0}
 		}, 1);
 
