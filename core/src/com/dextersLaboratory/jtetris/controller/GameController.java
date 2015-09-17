@@ -47,14 +47,31 @@ public class GameController {
 		
 	}
 	
+	//TODO: remove later
+	private void debugMulipleClears(){
+		int numClears = 9;
+		for(int y = 0; y < numClears; y++){
+			for(int x = 0; x < 9; x++){
+				model.setGridCell(x, y, true);
+				model.setGridCellColor(x, y, Color.RED);
+			}
+		}
+	}
+	
 	public void update(float delta){
 		
 		handleInput();
 		
-		steptimeAccum += delta;
-		if(steptimeAccum >= model.getSteptime()){
-			steptimeAccum = 0;
-			step();
+		if(model.getGameState() == GameState.playing){
+
+			model.increaseTimePlayed(delta);
+			
+			steptimeAccum += delta;
+			if(steptimeAccum >= model.getSteptime()){
+				steptimeAccum = 0;
+				step();
+			}
+			
 		}
 		
 	}
@@ -65,18 +82,11 @@ public class GameController {
 	
 	private void handleInput(){
 		
-		if(Gdx.input.isKeyJustPressed(Keys.A) || Gdx.input.isKeyJustPressed(Keys.LEFT)){
-			moveBlockLeft();
+		if(Gdx.input.isKeyJustPressed(Keys.NUM_1)){
+			model.increaseLinesCleared(5);
+			increaseSpeedIfNecessary();
 		}
-		else if(Gdx.input.isKeyJustPressed(Keys.D) || Gdx.input.isKeyJustPressed(Keys.RIGHT)){
-			moveBlockRight();
-		}
-		if(Gdx.input.isKeyJustPressed(Keys.W) || Gdx.input.isKeyJustPressed(Keys.UP)){
-			rotateBlock();
-		}
-		if(Gdx.input.isKeyJustPressed(Keys.S) || Gdx.input.isKeyJustPressed(Keys.DOWN)){
-			dropBlockDown();
-		}
+		
 		if(Gdx.input.isKeyJustPressed(Keys.P) || Gdx.input.isKeyJustPressed(Keys.ENTER)){
 			if(model.getGameState() == GameState.paused || 
 					model.getGameState() == GameState.playing){
@@ -84,6 +94,22 @@ public class GameController {
 			}else{
 				newGame();
 			}
+		}
+		if(model.getGameState() == GameState.playing){
+
+			if(Gdx.input.isKeyJustPressed(Keys.A) || Gdx.input.isKeyJustPressed(Keys.LEFT)){
+				moveBlockLeft();
+			}
+			else if(Gdx.input.isKeyJustPressed(Keys.D) || Gdx.input.isKeyJustPressed(Keys.RIGHT)){
+				moveBlockRight();
+			}
+			if(Gdx.input.isKeyJustPressed(Keys.W) || Gdx.input.isKeyJustPressed(Keys.UP)){
+				rotateBlock();
+			}
+			if(Gdx.input.isKeyJustPressed(Keys.S) || Gdx.input.isKeyJustPressed(Keys.DOWN)){
+				dropBlockDown();
+			}
+			
 		}
 		
 	}
@@ -142,10 +168,13 @@ public class GameController {
 	
 	private void newGame(){
 		model.reset();
+		steptimeAccum = 0f;
+
 		spawnNewBlock();
 		model.setGameState(GameState.playing);
 //		debugLineBottom();//TODO: remove later
 //		debugLineSides();//TODO: remove later
+//		debugMulipleClears();//TODO: remove later
 
 	}
 	
@@ -280,7 +309,9 @@ public class GameController {
 		
 		model.setCurrentBlock(newBlock);
 		model.setCurrentBlockPos(3, 16);
-//		model.setCurrentBlockPos(0, 0);
+		if(doesCollide(null)){
+			model.setGameState(GameState.gameOver);
+		}
 		
 	}
 	
@@ -310,6 +341,23 @@ public class GameController {
 				model.setGridCellColor(x, y, model.getGridCellColor(x, y+1));
 			}
 		}
+		
+		model.increaseScore(GameModel.SCORE_PER_LINE);
+		
+		model.increaseLinesCleared(1);
+		increaseSpeedIfNecessary();
+		
+	}
+	
+	private void increaseSpeedIfNecessary(){
+
+		if(model.getLinesCleared() % 5 == 0){
+			model.setSpeed(model.getLinesCleared()/5 + 1);
+			float newSteptime = 0.5f / (float) (Math.pow((model.getLinesCleared()/5) + 1, 0.5));
+			model.setSteptime(newSteptime);
+			System.out.println("new speed: " + newSteptime);
+		}
+		
 	}
 
 	

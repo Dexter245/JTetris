@@ -1,11 +1,11 @@
 package com.dextersLaboratory.jtetris.model;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector2;
 import com.dextersLaboratory.jtetris.model.block.Block;
 
 public class GameModel {
 	
+	public static final int SCORE_PER_LINE = 100;
 	private static final int GRID_WIDTH = 10;
 	private static final int GRID_HEIGHT = 20;
 
@@ -15,6 +15,7 @@ public class GameModel {
 	private float timePlayed = 0f;
 	private int score = 0;
 	private int speed = 1;
+	private int linesCleared = 0;
 	private int currentBlockPosX = 0;
 	private int currentBlockPosY = 0;
 //	private Vector2 currentBlockPos = new Vector2();
@@ -35,6 +36,7 @@ public class GameModel {
 		currentBlockPosY = 0;
 		currentBlock = null;
 		steptime = 0.5f;
+		linesCleared = 0;
 	}
 	
 	/** Sets the cell at the given coordinates x and y occupied or not occupied depending
@@ -68,8 +70,16 @@ public class GameModel {
 		this.timePlayed = timePlayed;
 	}
 	
+	public void increaseTimePlayed(float amount){
+		this.timePlayed += amount;
+	}
+	
 	public void increaseScore(int amount){
 		score += amount;
+	}
+	
+	public void increaseLinesCleared(int amount){
+		linesCleared += amount;
 	}
 
 	public void setGameState(GameState gameState) {
@@ -132,6 +142,10 @@ public class GameModel {
 //	public ShapeColor[][] getGridColors() {
 //		return gridColors;
 //	}
+	
+	public int getLinesCleared(){
+		return linesCleared;
+	}
 
 	public GameState getGameState() {
 		return gameState;
