@@ -2,7 +2,8 @@ package com.dextersLaboratory.jtetris.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.dextersLaboratory.jtetris.model.Direction;
 import com.dextersLaboratory.jtetris.model.GameModel;
 import com.dextersLaboratory.jtetris.model.GameState;
@@ -18,45 +19,60 @@ import com.dextersLaboratory.jtetris.model.block.BlockZ;
 public class GameController {
 
 	private GameModel model;
+	private Music bgm;
+	private Sound soundMove;
+	private Sound soundRotate;
+	private Sound soundLine;
+	private Sound soundLand;
+	private Sound soundGameOver;
+	private Sound soundPause;
 	private float steptimeAccum = 0f;
 
 	public GameController(){
 		model = new GameModel();
+		bgm = Gdx.audio.newMusic(Gdx.files.internal("bgm.mp3"));
+		bgm.setLooping(true);
+		soundMove = Gdx.audio.newSound(Gdx.files.internal("move.wav"));
+		soundRotate = Gdx.audio.newSound(Gdx.files.internal("rotate.wav"));
+		soundLine = Gdx.audio.newSound(Gdx.files.internal("line.wav"));
+		soundLand = Gdx.audio.newSound(Gdx.files.internal("land.wav"));
+		soundGameOver = Gdx.audio.newSound(Gdx.files.internal("gameOver.wav"));
+		soundPause = Gdx.audio.newSound(Gdx.files.internal("pause.wav"));
 	}
 	
 	//TODO: remove later
-	private void debugLineBottom(){
-		for(int x = 0; x < 10; x++){
-			model.setGridCell(x, 0, true);
-			model.setGridCellColor(x, 0, Color.RED);
-		}
-	}
+//	private void debugLineBottom(){
+//		for(int x = 0; x < 10; x++){
+//			model.setGridCell(x, 0, true);
+//			model.setGridCellColor(x, 0, Color.RED);
+//		}
+//	}
 	
 	//TODO: remove later
-	private void debugLineSides(){
-		int numLinesAtEachSide = 1;
-		for(int x = 0; x < numLinesAtEachSide; x++){
-			for(int y = 0; y < 20; y++){
-				model.setGridCell(x, y, true);
-				model.setGridCell(9-x, y, true);
-				model.setGridCellColor(x, y, Color.RED);
-				model.setGridCellColor(9-x, y, Color.RED);
-			}
-			
-		}
-		
-	}
+//	private void debugLineSides(){
+//		int numLinesAtEachSide = 1;
+//		for(int x = 0; x < numLinesAtEachSide; x++){
+//			for(int y = 0; y < 20; y++){
+//				model.setGridCell(x, y, true);
+//				model.setGridCell(9-x, y, true);
+//				model.setGridCellColor(x, y, Color.RED);
+//				model.setGridCellColor(9-x, y, Color.RED);
+//			}
+//			
+//		}
+//		
+//	}
 	
 	//TODO: remove later
-	private void debugMulipleClears(){
-		int numClears = 9;
-		for(int y = 0; y < numClears; y++){
-			for(int x = 0; x < 9; x++){
-				model.setGridCell(x, y, true);
-				model.setGridCellColor(x, y, Color.RED);
-			}
-		}
-	}
+//	private void debugMulipleClears(){
+//		int numClears = 9;
+//		for(int y = 0; y < numClears; y++){
+//			for(int x = 0; x < 9; x++){
+//				model.setGridCell(x, y, true);
+//				model.setGridCellColor(x, y, Color.RED);
+//			}
+//		}
+//	}
 	
 	public void update(float delta){
 		
@@ -124,6 +140,8 @@ public class GameController {
 			blockToGrid();
 			clearLines();
 			spawnNewBlock();
+			
+			soundLand.play();
 		}
 	}
 	
@@ -132,6 +150,7 @@ public class GameController {
 			return;
 		if(!doesCollide(Direction.left)){
 			model.setCurrentBlockPosX(model.getCurrentBlockPosX() - 1);
+			soundMove.play();
 		}
 	}
 	
@@ -140,6 +159,7 @@ public class GameController {
 			return;
 		if(!doesCollide(Direction.right)){
 			model.setCurrentBlockPosX(model.getCurrentBlockPosX() + 1);
+			soundMove.play();
 		}
 	}
 	
@@ -149,6 +169,9 @@ public class GameController {
 		while(!doesCollide(Direction.down)){
 			model.setCurrentBlockPosY(model.getCurrentBlockPosY() - 1);
 		}		
+
+		step();
+		steptimeAccum = 0f;
 	}
 	
 	private void rotateBlock(){
@@ -156,14 +179,22 @@ public class GameController {
 		if(!handleCollisionAfterRotation()){
 			for(int i = 0; i < 3; i++)
 				model.getCurrentBlock().rotate();
+		}else{
+			soundRotate.play();
 		}
 	}
 	
 	private void togglePause(){
-		if(model.getGameState() == GameState.playing)
+		if(model.getGameState() == GameState.playing){
 			model.setGameState(GameState.paused);
-		else if(model.getGameState() == GameState.paused)
+			bgm.pause();
+			soundPause.play();
+		}
+		else if(model.getGameState() == GameState.paused){
 			model.setGameState(GameState.playing);
+			bgm.play();
+		}
+		
 	}
 	
 	private void newGame(){
@@ -172,6 +203,11 @@ public class GameController {
 
 		spawnNewBlock();
 		model.setGameState(GameState.playing);
+		
+		if(!bgm.isPlaying()){
+			bgm.setPosition(0f);
+			bgm.play();
+		}
 //		debugLineBottom();//TODO: remove later
 //		debugLineSides();//TODO: remove later
 //		debugMulipleClears();//TODO: remove later
@@ -278,7 +314,7 @@ public class GameController {
 	
 	private void spawnNewBlock(){
 		int rand = (int) (Math.random() * 7);
-//		int rand = 0;
+//		int rand = 6;
 		Block newBlock = null;
 		switch(rand){
 		case 0:
@@ -311,6 +347,8 @@ public class GameController {
 		model.setCurrentBlockPos(3, 16);
 		if(doesCollide(null)){
 			model.setGameState(GameState.gameOver);
+			bgm.pause();
+			soundGameOver.play();
 		}
 		
 	}
@@ -347,6 +385,8 @@ public class GameController {
 		model.increaseLinesCleared(1);
 		increaseSpeedIfNecessary();
 		
+		soundLine.play();
+		
 	}
 	
 	private void increaseSpeedIfNecessary(){
@@ -355,11 +395,13 @@ public class GameController {
 			model.setSpeed(model.getLinesCleared()/5 + 1);
 			float newSteptime = 0.5f / (float) (Math.pow((model.getLinesCleared()/5) + 1, 0.5));
 			model.setSteptime(newSteptime);
-			System.out.println("new speed: " + newSteptime);
 		}
 		
 	}
 
+	public void dispose(){
+		bgm.dispose();
+	}
 	
 	
 	

@@ -7,12 +7,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Vector2;
 import com.dextersLaboratory.jtetris.model.GameModel;
 import com.dextersLaboratory.jtetris.model.GameState;
 
 public class SimpleGameView implements IGameView {
 	
+	@SuppressWarnings("unused")
 	private static final int SCREEN_WIDTH = 640;
 	private static final int SCREEN_HEIGHT = 480;
 	private static final int CELL_WIDTH = 21;
@@ -147,6 +147,13 @@ public class SimpleGameView implements IGameView {
 		
 		
 		
+	}
+	
+	@Override
+	public void dispose(){
+		batch.dispose();
+		shapeRenderer.dispose();
+		stdFont.dispose();
 	}
 
 

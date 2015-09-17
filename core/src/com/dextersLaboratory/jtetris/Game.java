@@ -2,9 +2,6 @@ package com.dextersLaboratory.jtetris;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.dextersLaboratory.jtetris.controller.GameController;
 import com.dextersLaboratory.jtetris.view.IGameView;
 import com.dextersLaboratory.jtetris.view.SimpleGameView;
@@ -24,5 +21,12 @@ public class Game extends ApplicationAdapter {
 	public void render () {
 		controller.update(Gdx.graphics.getDeltaTime());
 		view.render();
+	}
+
+	@Override
+	public void dispose() {
+		controller.dispose();
+		view.dispose();
+		super.dispose();
 	}
 }
