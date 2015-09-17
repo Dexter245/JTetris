@@ -34,7 +34,7 @@ public class GameController {
 	
 	//TODO: remove later
 	private void debugLineSides(){
-		int numLinesAtEachSide = 4;
+		int numLinesAtEachSide = 1;
 		for(int x = 0; x < numLinesAtEachSide; x++){
 			for(int y = 0; y < 20; y++){
 				model.setGridCell(x, y, true);
@@ -89,27 +89,40 @@ public class GameController {
 	}
 	
 	private void step(){
-		if(model.getCurrentBlock() != null && !doesCollide(Direction.down)){
+		if(model.getCurrentBlock() == null)
+			return;
+		if(!doesCollide(Direction.down)){
 			model.setCurrentBlockPosY(model.getCurrentBlockPosY() - 1);
 		}else{
 			//block to grid
+			blockToGrid();
+			clearLines();
+			spawnNewBlock();
 		}
 	}
 	
 	private void moveBlockLeft(){
-		if(model.getCurrentBlock() != null && !doesCollide(Direction.left)){
+		if(model.getCurrentBlock() == null)
+			return;
+		if(!doesCollide(Direction.left)){
 			model.setCurrentBlockPosX(model.getCurrentBlockPosX() - 1);
 		}
 	}
 	
 	private void moveBlockRight(){
-		if(model.getCurrentBlock() != null && !doesCollide(Direction.right)){
+		if(model.getCurrentBlock() == null)
+			return;
+		if(!doesCollide(Direction.right)){
 			model.setCurrentBlockPosX(model.getCurrentBlockPosX() + 1);
 		}
 	}
 	
 	private void dropBlockDown(){
-		
+		if(model.getCurrentBlock() == null)
+			return;
+		while(!doesCollide(Direction.down)){
+			model.setCurrentBlockPosY(model.getCurrentBlockPosY() - 1);
+		}		
 	}
 	
 	private void rotateBlock(){
@@ -132,8 +145,22 @@ public class GameController {
 		spawnNewBlock();
 		model.setGameState(GameState.playing);
 //		debugLineBottom();//TODO: remove later
-		debugLineSides();//TODO: remove later
+//		debugLineSides();//TODO: remove later
 
+	}
+	
+	private void blockToGrid(){
+		Block block = model.getCurrentBlock();
+		int blockX = model.getCurrentBlockPosX();
+		int blockY = model.getCurrentBlockPosY();
+		for(int x = 0; x < 4; x++){
+			for(int y = 0; y < 4; y++){
+				if(block.getGrid()[x][y]){
+					model.setGridCell(blockX + x, blockY + y, true);
+					model.setGridCellColor(blockX + x, blockY + y, block.getColor());
+				}
+			}
+		}
 	}
 	
 	private boolean doesCollide(Direction dir){
@@ -185,7 +212,7 @@ public class GameController {
 						y = -1;
 					}
 					//against fallen down blocks
-					else if(model.getGridCell(newPosX, y)){
+					else if(model.getGridCell(newPosX, newPosY + y)){
 						newPosX++;
 						correctedLeft = true;
 						y = -1;
@@ -210,7 +237,7 @@ public class GameController {
 						y = -1;
 					}
 					//against fallen down blocks
-					else if(model.getGridCell(newPosX+x, y)){
+					else if(model.getGridCell(newPosX+x, newPosY + y)){
 						if(correctedLeft){
 							possible = false;
 							break;
@@ -234,7 +261,7 @@ public class GameController {
 	
 	private void spawnNewBlock(){
 //		int rand = (int) (Math.random() * 7);
-		int rand = 1;
+		int rand = 3;
 		Block newBlock = null;
 		switch(rand){
 		case 0:
@@ -269,9 +296,53 @@ public class GameController {
 		
 	}
 	
-	private void clearLine(){
-		
+	private void clearLines(){
+		for(int y = 0; y < 20; y++){
+			for(int x = 0; x < 10; x++){
+				if(!model.getGridCell(x, y)){
+					break;
+				}
+				else if(x == 9){
+					clearLine(y);
+					y = -1;
+					break;
+				}
+			}
+		}
 	}
+	
+	private void clearLine(int line){
+		for(int x = 0; x < 10; x++){
+			model.setGridCell(x, line, false);
+		}
+		
+		for(int y = line; y < 19; y++){
+			for(int x = 0; x < 10; x++){
+				model.setGridCell(x, y, model.getGridCell(x, y+1));
+				model.setGridCellColor(x, y, model.getGridCellColor(x, y+1));
+			}
+		}
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

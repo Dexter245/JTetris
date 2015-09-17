@@ -69,7 +69,7 @@ public class SimpleGameView implements IGameView {
 		//blocks that have fallen down
 		for(int x = 0; x < NUM_CELLS_X; x++){
 			for(int y = 0; y < NUM_CELLS_Y; y++){
-				if(model.getGridCell(x, y)){
+				if(model.getGridCell(x, y) && model.getGridCellColor(x, y) != null){
 					shapeRenderer.setColor(model.getGridCellColor(x, y));
 					shapeRenderer.rect(x*CELL_WIDTH+20, y*CELL_HEIGHT+20, CELL_WIDTH, CELL_HEIGHT);
 				}
