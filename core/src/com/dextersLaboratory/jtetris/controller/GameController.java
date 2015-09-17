@@ -141,6 +141,8 @@ public class GameController {
 			clearLines();
 			spawnNewBlock();
 			
+			model.increaseScore(10);
+			
 			soundLand.play();
 		}
 	}
@@ -354,18 +356,23 @@ public class GameController {
 	}
 	
 	private void clearLines(){
+		boolean playSound = false;
 		for(int y = 0; y < 20; y++){
 			for(int x = 0; x < 10; x++){
 				if(!model.getGridCell(x, y)){
 					break;
 				}
 				else if(x == 9){
+					playSound = true;
 					clearLine(y);
 					y = -1;
 					break;
 				}
 			}
 		}
+		
+		if(playSound)
+			soundLine.play();
 	}
 	
 	private void clearLine(int line){
@@ -384,8 +391,6 @@ public class GameController {
 		
 		model.increaseLinesCleared(1);
 		increaseSpeedIfNecessary();
-		
-		soundLine.play();
 		
 	}
 	
