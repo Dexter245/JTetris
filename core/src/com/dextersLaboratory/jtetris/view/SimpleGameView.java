@@ -111,7 +111,6 @@ public class SimpleGameView implements IGameView {
 		//current block
 		if(model.getCurrentBlock() != null){
 			boolean[][] blockGrid = model.getCurrentBlock().getGrid();
-	//		Vector2 blockPos = model.getCurrentBlockPos();
 			int blockPosX = model.getCurrentBlockPosX();
 			int blockPosY = model.getCurrentBlockPosY();
 			int rectX = 0, rectY = 0;
@@ -121,30 +120,15 @@ public class SimpleGameView implements IGameView {
 					if(blockGrid[x][y]){
 						rectX = (blockPosX + x) * (CELL_WIDTH+1) + 20;
 						rectY = (blockPosY + y) * (CELL_HEIGHT+1) + 21;
-//						rectX = (x) * CELL_WIDTH + 20;
-//						rectY = (y) * CELL_HEIGHT + 20;
 						shapeRenderer.rect(rectX, rectY, CELL_WIDTH, CELL_HEIGHT);
 					}
 				}
 			}
 
-			//debug 4x4 rect around current block
-			//TODO: remove later
-//			shapeRenderer.end();
-//			shapeRenderer.begin(ShapeType.Line);
-//			shapeRenderer.rect(blockPosX*(CELL_WIDTH+1) + 20, blockPosY*(CELL_HEIGHT+1) + 20, 
-//					4*(CELL_WIDTH+1), 4*(CELL_HEIGHT+1));
-			//remove end
-			
 		}
 		
 		
-		
-		
 		shapeRenderer.end();
-
-		
-		
 		
 		
 	}

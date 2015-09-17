@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 public abstract class Block {
 
 	protected boolean[][][] shapeGrid = new boolean[4][4][4];
-//	private ShapeColor color;
 	protected Color color;
 	private int currentRotation = 0;
 	

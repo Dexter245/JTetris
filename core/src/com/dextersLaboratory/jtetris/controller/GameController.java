@@ -40,40 +40,6 @@ public class GameController {
 		soundPause = Gdx.audio.newSound(Gdx.files.internal("pause.wav"));
 	}
 	
-	//TODO: remove later
-//	private void debugLineBottom(){
-//		for(int x = 0; x < 10; x++){
-//			model.setGridCell(x, 0, true);
-//			model.setGridCellColor(x, 0, Color.RED);
-//		}
-//	}
-	
-	//TODO: remove later
-//	private void debugLineSides(){
-//		int numLinesAtEachSide = 1;
-//		for(int x = 0; x < numLinesAtEachSide; x++){
-//			for(int y = 0; y < 20; y++){
-//				model.setGridCell(x, y, true);
-//				model.setGridCell(9-x, y, true);
-//				model.setGridCellColor(x, y, Color.RED);
-//				model.setGridCellColor(9-x, y, Color.RED);
-//			}
-//			
-//		}
-//		
-//	}
-	
-	//TODO: remove later
-//	private void debugMulipleClears(){
-//		int numClears = 9;
-//		for(int y = 0; y < numClears; y++){
-//			for(int x = 0; x < 9; x++){
-//				model.setGridCell(x, y, true);
-//				model.setGridCellColor(x, y, Color.RED);
-//			}
-//		}
-//	}
-	
 	public void update(float delta){
 		
 		handleInput();
@@ -136,7 +102,6 @@ public class GameController {
 		if(!doesCollide(Direction.down)){
 			model.setCurrentBlockPosY(model.getCurrentBlockPosY() - 1);
 		}else{
-			//block to grid
 			blockToGrid();
 			clearLines();
 			spawnNewBlock();
@@ -210,9 +175,6 @@ public class GameController {
 			bgm.setPosition(0f);
 			bgm.play();
 		}
-//		debugLineBottom();//TODO: remove later
-//		debugLineSides();//TODO: remove later
-//		debugMulipleClears();//TODO: remove later
 
 	}
 	
@@ -316,7 +278,6 @@ public class GameController {
 	
 	private void spawnNewBlock(){
 		int rand = (int) (Math.random() * 7);
-//		int rand = 6;
 		Block newBlock = null;
 		switch(rand){
 		case 0:

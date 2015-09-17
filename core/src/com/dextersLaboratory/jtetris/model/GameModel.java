@@ -18,7 +18,6 @@ public class GameModel {
 	private int linesCleared = 0;
 	private int currentBlockPosX = 0;
 	private int currentBlockPosY = 0;
-//	private Vector2 currentBlockPos = new Vector2();
 	private Block currentBlock;
 	private float steptime = 0.5f;
 	
@@ -53,11 +52,6 @@ public class GameModel {
 		grid[x][y] = value;
 	}
 	
-	/** Sets the cell color at the given coordinates x and y.
-	 * @param x the x coordinate of the cell to set
-	 * @param y the y coordinate of the cell to set
-	 * @param color the color to set
-	 * @throws IllegalArgumentException if x or y are out of the gameArea bounds */
 	public void setGridCellColor(int x, int y, Color color) throws IllegalArgumentException{
 		if(x < 0 || x >= GRID_WIDTH)
 			throw new IllegalArgumentException("x may not be " + x);
@@ -103,10 +97,6 @@ public class GameModel {
 		currentBlockPosY = y;
 	}
 
-//	public void setCurrentBlockPos(Vector2 currentBlockPos) {
-//		this.currentBlockPos = currentBlockPos;
-//	}
-
 	public void setCurrentBlock(Block currentBlock) {
 		this.currentBlock = currentBlock;
 	}
@@ -116,10 +106,6 @@ public class GameModel {
 	}
 	
 	public boolean getGridCell(int x, int y){
-//		if(x < 0 || x >= GRID_WIDTH)
-//			throw new IllegalArgumentException("x may not be " + x);
-//		if(y < 0 || y >= GRID_HEIGHT)
-//			throw new IllegalArgumentException("y may not be " + y);
 		if(x < 0 || x >= GRID_WIDTH)
 			return true;
 		if(y < 0 || y >= GRID_HEIGHT)
@@ -134,14 +120,6 @@ public class GameModel {
 			throw new IllegalArgumentException("y may not be " + y);
 		return gridColors[x][y];
 	}
-	
-//	public boolean[][] getGrid() {
-//		return grid;
-//	}
-//
-//	public ShapeColor[][] getGridColors() {
-//		return gridColors;
-//	}
 	
 	public int getLinesCleared(){
 		return linesCleared;
@@ -170,10 +148,6 @@ public class GameModel {
 	public int getCurrentBlockPosY(){
 		return currentBlockPosY;
 	}
-
-//	public Vector2 getCurrentBlockPos() {
-//		return currentBlockPos;
-//	}
 
 	public Block getCurrentBlock() {
 		return currentBlock;
