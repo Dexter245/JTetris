@@ -201,50 +201,38 @@ public class GameController {
 		int newPosY = model.getCurrentBlockPosY();
 
 		//collision left
-		for(int x = 0; x < 4; x++){
+		for(int x = 0; x < 2; x++){
 
 			for(int y = 0; y < 4; y++){
 				if(model.getCurrentBlock().getGrid()[x][y]){
-					//against game area border
-					if(newPosX + x < 0){
+
+					if(model.getGridCell(newPosX + x, newPosY + y)){
 						newPosX++;
 						correctedLeft = true;
 						y = -1;
 					}
-					//against fallen down blocks
-					else if(model.getGridCell(newPosX, newPosY + y)){
-						newPosX++;
-						correctedLeft = true;
-						y = -1;
-					}
+
 				}
 			}
 
 		}
 		
 		//collision right
-		for(int x = 3; x > 0; x--){
+		for(int x = 3; x > 1; x--){
 
 			for(int y = 0; y < 4; y++){
 				if(model.getCurrentBlock().getGrid()[x][y]){
-					//against game area border
-					if(newPosX > 9-x){
+
+					if(model.getGridCell(newPosX + x, newPosY + y)){
 						if(correctedLeft){
 							possible = false;
+							x = -1;
 							break;
 						}
 						newPosX--;
 						y = -1;
 					}
-					//against fallen down blocks
-					else if(model.getGridCell(newPosX+x, newPosY + y)){
-						if(correctedLeft){
-							possible = false;
-							break;
-						}
-						newPosX--;
-						y = -1;
-					}
+
 				}
 			}
 			
@@ -260,8 +248,8 @@ public class GameController {
 	}
 	
 	private void spawnNewBlock(){
-//		int rand = (int) (Math.random() * 7);
-		int rand = 3;
+		int rand = (int) (Math.random() * 7);
+//		int rand = 0;
 		Block newBlock = null;
 		switch(rand){
 		case 0:

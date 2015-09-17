@@ -106,14 +106,14 @@ public class GameModel {
 	}
 	
 	public boolean getGridCell(int x, int y){
-		if(x < 0 || x >= GRID_WIDTH)
-			throw new IllegalArgumentException("x may not be " + x);
-		if(y < 0 || y >= GRID_HEIGHT)
-			throw new IllegalArgumentException("y may not be " + y);
 //		if(x < 0 || x >= GRID_WIDTH)
-//			return true;
+//			throw new IllegalArgumentException("x may not be " + x);
 //		if(y < 0 || y >= GRID_HEIGHT)
-//			return true;
+//			throw new IllegalArgumentException("y may not be " + y);
+		if(x < 0 || x >= GRID_WIDTH)
+			return true;
+		if(y < 0 || y >= GRID_HEIGHT)
+			return true;
 		return grid[x][y];
 	}
 	
